@@ -13,6 +13,7 @@ let rows = 10;
 
 function setup() {
   createCanvas(600, 700);
+  colorMode(HSB);
   engine = Engine.create();
   world = engine.world;
   world.gravity.y = 2;
@@ -25,7 +26,7 @@ function setup() {
         x += spacing / 2;
       }
       let y = spacing + j * spacing;
-      let p = new Plinko(x, y, 4);
+      let p = new Plinko(x, y, 16);
       plinkos.push(p);
     }
   }
@@ -48,7 +49,8 @@ function newParticle() {
 }
 
 function draw() {
-  if (frameCount % 60 == 0) {
+  background(0, 0, 0);
+  if (frameCount % 20 == 0) {
     newParticle();
   }
 
