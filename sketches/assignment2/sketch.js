@@ -16,7 +16,8 @@ function setup() {
   colorMode(HSB);
   engine = Engine.create();
   world = engine.world;
-  world.gravity.y = 2;
+  //world.gravity.y = 2;
+
   newParticle();
   let spacing = width / cols;
   for (let j = 0; j < rows; j++) {
@@ -53,9 +54,8 @@ function draw() {
   if (frameCount % 20 == 0) {
     newParticle();
   }
-
-  background(51);
-  Engine.update(engine);
+  console.log(frameRate());
+  Engine.update(engine, 1000 / 30);
   for (var i = 0; i < particles.length; i++) {
     particles[i].show();
     if (particles[i].isOffScreen()) {

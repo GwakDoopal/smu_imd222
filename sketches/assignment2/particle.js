@@ -3,6 +3,7 @@ function Particle(x, y, r) {
   let options = {
     restitution: 0.5,
     friction: 0,
+    density: 1,
   };
   x += random(-1, 1);
   this.body = Bodies.circle(x, y, r, options);
