@@ -35,6 +35,7 @@ function draw() {
 
       let colorR = (255 * tileCntX) / (howManyX - 1);
       let colorB = (255 * tileCntY) / (howManyY - 1);
+      let colorG = mouseY * noiseVal;
 
       push();
       translate(tileCenterX, tileCenterY);
