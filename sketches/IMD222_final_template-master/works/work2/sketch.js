@@ -6,42 +6,59 @@ function setup() {
   canvas.parent("p5Canvas");
 }
 
-let howManyX = 20;
-let howManyY = 20;
-let seedNum = 0;
-let noiseMult = 0.003;
+let howManyX = 10;
+let howManyY = 10;
+let seedNum = 2;
+let noiseMult = 0.1;
 
 function mousePressed() {
-  seedNum = random(5);
+  seedNum = random(8);
 }
 
 function draw() {
-  // randomSeed(seedNum);
-  noiseMult = map(mouseX, 0, width, 0, 0.1);
+  noiseMult = map(mouseX, 0, width, -0.1, 0.04);
   noiseSeed(seedNum);
   noStroke();
   fill(255);
   rect(0, 0, width, height);
   let tileWidth = width / (howManyX + 1);
   let tileHeight = height / (howManyY + 1);
+
   for (let tileCntX = 0; tileCntX < howManyX; tileCntX++) {
     for (let tileCntY = 0; tileCntY < howManyY; tileCntY++) {
       let tileCenterX = tileWidth * (tileCntX + 1);
       let tileCenterY = tileHeight * (tileCntY + 1);
-      // let randAngle = random(0, radians(360));
-      let noiseAngle =
-        radians(360) * noise(tileCntX * noiseMult, tileCntY * noiseMult);
+
+      let noiseVal = noise(tileCntX * noiseMult, tileCntY * noiseMult);
+      let noiseAngle = radians(360) * noiseVal;
+
+      let colorR = (255 * tileCntX) / (howManyX - 1);
+      let colorB = (255 * tileCntY) / (howManyY - 1);
+      let colorG = mouseY * noiseVal;
+      let toMouseAngle = atan2(mouseY - tileCenterY, mouseX - tileCenterX);
+
       push();
       translate(tileCenterX, tileCenterY);
-      // rotate(randAngle);
-      rotate(noiseAngle);
+      // rotate(noiseAngle);
+      rotate(toMouseAngle);
+
       noFill();
-      stroke(0);
-      strokeWeight(10);
-      line(0 - tileWidth * 0.5 + 5, 0, 0 + tileWidth * 0.5 - 5, 0);
-      // fill(255, 0, 0);
-      // noStroke();
-      // circle(0 + tileWidth * 0.5 - 5, 0, 10);
+      stroke(colorR, colorG, colorB);
+      strokeWeight(1);
+      // line(0 - tileWidth * 0.5 + 5, 0, 0 + tileWidth * 0.5 - 5, 0);
+      circle(
+        mouseX * noiseMult,
+        mouseY * noiseMult,
+        (tileWidth + tileHeight) * noiseVal
+      );
+      // triangle(
+      //   mouseX,
+      //   mouseX * noiseMult,
+      //   mouseY,
+      //   mouseY * noiseMult,
+      //   mouseX,
+      //   mouseY
+      // );
       pop();
     }
   }
