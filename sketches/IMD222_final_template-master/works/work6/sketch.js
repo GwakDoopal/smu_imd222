@@ -2,60 +2,65 @@ function setup() {
   let boundingRects = document
     .getElementById("p5Canvas")
     .getBoundingClientRect();
-  let canvas = createCanvas(boundingRects.width, boundingRects.height);
+  let canvas = createCanvas(boundingRects.width, boundingRects.height, WEBGL);
   canvas.parent("p5Canvas");
-  // angleMode(DEGREES);
-  frameRate(8);
+  angleMode(DEGREES);
+
+  // noLoop();
 }
 
-function draw() {}
+function draw() {
+  background(255);
 
-function mousePressed() {
-  dhodkseho();
+  randomSeed(1);
+
+  translate(0, 200, 0);
+
+  rotateY(frameCount);
+
+  branch(100);
 }
 
-function dhodkseho() {
-  let positionX = random(0, width);
-  let positionY = random(0, height);
-  for (let i = 0; i <= 100; i++) {
-    let toMouseAngle = atan2(mouseY - positionY, mouseX - positionX); // rotate(Math.PI / rad);
+function branch(len) {
+  strokeWeight(map(len, 10, 100, 0.5, 5));
+  stroke(0);
 
-    rotate(toMouseAngle);
-    circle(positionX + i, positionY, 10);
+  line(0, 0, 0, 0, -len - 2, 0);
+
+  translate(0, -len, 0);
+
+  if (len > 10) {
+    for (let i = 0; i < 3; i++) {
+      rotateY(random(120, 170));
+
+      push();
+
+      rotateZ(random(20, 50));
+      branch(len * 0.7);
+
+      pop();
+    }
+  } else {
     fill(0);
+    noStroke();
+
+    translate(5, 0, 0);
+
+    rotateZ(90);
+
+    beginShape();
+    for (let i = 45; i < 135; i++) {
+      let rad = 7;
+      let x = rad * cos(i);
+      let y = rad * sin(i);
+      vertex(x, y);
+    }
+    for (let i = 135; i < 45; i--) {
+      let rad = 7;
+      let x = rad * cos(i);
+      let y = rad * sin(-i) + 10;
+      vertex(x, y);
+    }
+    endShape(CLOSE);
   }
 }
-
-// function drawPoint() {
-//   fill(255);
-//   let drawNum = random(2, 70);
-
-//   let cSize = -4;
-
-//   for (let drawC = 0; drawC <= drawNum; drawC++) {
-//     let plusX = random(-1, 1);
-//     let plusY = random(-1, 1);
-//     let cRotate = random(360);
-
-//     let rorcp = circle(mouseX + drawC, mouseY + drawC, random(20, 30) - cSize);
-//     rotate(cRotate);
-//   }
-// }
-
-// function randomDraw() {
-//   let positionX = random(0, width);
-//   let positionY = random(0, height);
-//   let drawNum = random(2, 70);
-//   let circleSize = random(50, 70);
-
-//   for (let drawX = 0; drawX <= drawNum; drawX++) {
-//     fill(255);
-//     circle(
-//       mouseX + drawX * random(-10, 10),
-//       mouseY + drawX * random(-10, 10),
-//       circleSize - drawNum
-//     );
-//   }
-
-// circle(mouseX, mouseY, circleSize);
-// }

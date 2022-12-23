@@ -5,54 +5,34 @@ function setup() {
   let canvas = createCanvas(boundingRects.width, boundingRects.height);
   canvas.parent("p5Canvas");
   angleMode(DEGREES);
-  colorMode(HSL);
-  createPattern(257, 0.8, 180);
+
+  rectMode(CENTER);
 }
+let mult = 100;
 
 function mousePressed() {
-  createPattern();
+  mult = random(1, 100) * 10;
 }
 
 function draw() {
-  createPattern();
-}
-
-function createPattern(fix, zoom, startColour) {
-  let length = 0;
-  let step = round(random(360));
-  let colour = round(random(360));
-
-  let rotationAngle = 0;
-  let magnify = height / 500;
-
-  let oldX = width / 2;
-  let oldY = height / 2;
-  let newX;
-  let newY;
-
-  if (fix != null) step = fix;
-  if (zoom != null) {
-    magnify = zoom;
-  }
-  if (startColour != null) {
-    colour = startColour;
-  }
-
   background(255);
-  text("colour: " + colour, width - 70, 15);
+  noFill();
 
-  for (let i = 0; i < 360; i++) {
-    stroke(colour % 360, 100, 50);
+  translate(width / 2, height / 2);
 
-    newX = length * cos(rotationAngle) + oldX;
-    newY = letgth * sin(rotationAngle) + oldY;
+  for (let i = 0; i < 200; i++) {
+    push();
 
-    line(oldX, oldY, newX, newY);
+    rotate(sin(frameCount + i * 1.5) * mult);
 
-    oldX = newX;
-    oldY = newY;
-    rotationAngle += step;
-    length -= magnify;
-    colour += 1;
+    // let r = map(sin(frameCount), -1, 1, 50, 255);
+    // let g = map(cos(frameCount / 2), -1, 1, 50, 255);
+    // let b = map(sin(frameCount / 4), -1, 1, 50, 255);
+
+    stroke(0);
+
+    rect(0, 0, 600 - i * 3, 600 - i * 3, 200 - i);
+
+    pop();
   }
 }
